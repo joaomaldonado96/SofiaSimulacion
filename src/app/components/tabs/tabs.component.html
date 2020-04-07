@@ -1,0 +1,17 @@
+<div class="tabs" [ngClass]="{
+  'withOutHr': size12
+ }">
+  <div *ngFor="let tab of tabs" (click)="selectTab(tab)" class="option"
+  [ngClass]="{'size12': size12,
+  'createRouteActive': tab.id === activeTab && size12 ===true,
+  'programming' : programming}">
+    {{tab.label}}
+    <hr [ngClass]="{
+      'active': tab.id === activeTab
+     }" *ngIf="!size12">
+  </div>
+</div>
+
+<div>
+  <ng-content></ng-content>
+</div>

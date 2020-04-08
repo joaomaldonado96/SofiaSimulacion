@@ -316,4 +316,13 @@ export class SimuationTestComponent implements OnInit {
     this.lineChartData[0].data = this.chartData;
     this.lineChartLabels = this.labels;
   }
+
+
+  public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
+    console.log(event, active);
+  }
+
+  public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
+    console.log(event, active);
+  }
 }

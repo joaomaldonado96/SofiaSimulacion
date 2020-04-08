@@ -135,9 +135,9 @@ export class SimuationTestComponent implements OnInit {
           for (let index = 0; index < (this.m * this.n) + 1 ; index++) {
             ecua.push(0);
           }
-          const a = celda.timas;
-          const c = celda.timenos;
-          const b = -1 * (celda.timas + celda.timenos + celda.ci);
+          const a = Number (celda.timas);
+          const c = Number (celda.timenos);
+          const b = -1 * (Number (celda.timas) + Number (celda.timenos) + celda.ci);
           const d = -1 * celda.ci * celda.presion;
           switch (celda.ecu) {
             case 1: if (fila.indexOf(celda) === 0) {
@@ -157,7 +157,7 @@ export class SimuationTestComponent implements OnInit {
                       ecua.splice(ecua.length - 1, 1, d);
                     }
                     break;
-            case 2: const e = -1 * (celda.timas + celda.timenos + celda.ci  + celda.ji);
+            case 2: const e = -1 * (Number (celda.timas) + Number (celda.timenos) + celda.ci  + celda.ji);
                     const f = d - (celda.ji * celda.pwf);
                     if (fila.indexOf(celda) === 0) {
                       ecua.splice(indexEcua, 1, e);
@@ -176,20 +176,22 @@ export class SimuationTestComponent implements OnInit {
                       ecua.splice(ecua.length - 1, 1, f);
                     }
                     break;
-            case 3: const g = d + celda.qi;
+            case 3: celda.ji = celda.qi / (celda.presion - celda.pwf);
+                    const g = d - (celda.ji * celda.pwf);
+                    const h = -1 * (Number(celda.timas)  +  Number (celda.timenos) + celda.ci + celda.ji);
                     if (fila.indexOf(celda) === 0) {
-                      ecua.splice(indexEcua, 1, b);
+                      ecua.splice(indexEcua, 1, h);
                       ecua.splice(indexEcua + 1, 1, a);
                       ecua.splice(ecua.length - 1, 1, g);
                     }
                     if (fila.indexOf(celda) === (fila.length - 1)) {
-                      ecua.splice(indexEcua, 1, b);
+                      ecua.splice(indexEcua, 1, h);
                       ecua.splice(indexEcua - 1, 1, c);
                       ecua.splice(ecua.length - 1, 1, g);
                     }
                     if (fila.indexOf(celda) !== (fila.length - 1) && fila.indexOf(celda) !== 0) {
                       ecua.splice(indexEcua + 1, 1, a);
-                      ecua.splice(indexEcua, 1, b);
+                      ecua.splice(indexEcua, 1, h);
                       ecua.splice(indexEcua - 1, 1, c);
                       ecua.splice(ecua.length - 1, 1, g);
                     }
@@ -202,10 +204,12 @@ export class SimuationTestComponent implements OnInit {
       console.log(this.ecuaiones);
       const res = gaussian(this.ecuaiones);
       console.log(res);
+      let ind = 0;
       this.resultados.push(res);
       for ( const fila of this.maya) {
         for ( const celda of fila) {
-          celda.presion = res[fila.indexOf(celda)];
+          celda.presion = res[ind];
+          ind++;
         }
       }
     }

@@ -176,7 +176,7 @@ export class SimuationTestComponent implements OnInit {
                       ecua.splice(ecua.length - 1, 1, f);
                     }
                     break;
-            case 3: const g = d - celda.qi;
+            case 3: const g = d + celda.qi;
                     if (fila.indexOf(celda) === 0) {
                       ecua.splice(indexEcua, 1, b);
                       ecua.splice(indexEcua + 1, 1, a);
@@ -261,7 +261,7 @@ export class SimuationTestComponent implements OnInit {
         }
         if (celda.pozo && celda.tasa === 's') {
           if (celda.cudal === 'i') {
-            celda.qi = -1 * celda.cudal;
+            celda.qi = -1 * celda.qi;
           }
           celda.ecu = 3;
         }
